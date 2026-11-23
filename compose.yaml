@@ -1,0 +1,15 @@
+services:
+  app:
+    image: golpakhsh-ats:latest
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in the server environment or .env file}
+    volumes:
+      - ats-data:/app/data
+
+volumes:
+  ats-data:
+    name: golpakhsh-ats-data

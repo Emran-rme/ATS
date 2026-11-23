@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.env
+.env.*
+ats.sqlite*
+data
+npm-debug.log*
+Dockerfile*
+compose*.yaml
+compose*.yml

@@ -1,0 +1,18 @@
+services:
+  ats:
+    image: golpakhsh-ats:ats-path
+    platform: linux/amd64
+    pull_policy: never
+    restart: unless-stopped
+    environment:
+      ADMIN_PASSWORD: ${ATS_ADMIN_PASSWORD:?Set ATS_ADMIN_PASSWORD in the server .env file}
+      TZ: Asia/Tehran
+    volumes:
+      - ats_data:/app/data
+    networks: [application]
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+
+volumes:
+  ats_data:
