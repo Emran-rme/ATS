@@ -21,7 +21,7 @@ import {
     UserRound,
     X,
 } from "lucide-react";
-import { jobs } from "../lib/jobs";
+import { jobs as legacyJobs } from "../lib/jobs";
 import { withResumeCollections } from "../lib/resume";
 import ResumeSection from "./resume-section";
 import { JobsBoard, JobDetails } from "./job-board";
@@ -75,7 +75,11 @@ export default function Career() {
         [experience, setExperience] = useState(""),
         [section, setSection] = useState(""),
         [draft, setDraft] = useState({}),
-        [busy, setBusy] = useState(false);
+        [busy, setBusy] = useState(false),
+        [jobs, setJobs] = useState([]),
+        [jobsLoading, setJobsLoading] = useState(true),
+        [jobsError, setJobsError] = useState(""),
+        [jobsStale, setJobsStale] = useState(false);
     const selected = jobs.find((j) => String(j.id) === path.split("/")[2]);
     const notify = (text) => toast.success(text);
     async function refresh() {
@@ -90,6 +94,11 @@ export default function Career() {
     }
     useEffect(() => {
         refresh().catch(() => setLoaded(true));
+    }, []);
+    useEffect(() => {
+        api("jobs").then(data => { setJobs(data.jobs); setJobsStale(data.stale); })
+            .catch(() => setJobsError("دریافت فرصت‌های شغلی در حال حاضر امکان‌پذیر نیست."))
+            .finally(() => setJobsLoading(false));
     }, []);
     function go(url) {
         setMenu(false);
@@ -513,6 +522,9 @@ export default function Career() {
                 (path === "/jobs" ? (
                     <JobsBoard
                         jobs={jobs}
+                        loading={jobsLoading}
+                        error={jobsError}
+                        stale={jobsStale}
                         filtered={filtered}
                         query={query}
                         setQuery={setQuery}
@@ -524,7 +536,7 @@ export default function Career() {
                         setExperience={setExperience}
                     />
                 ) : (
-                    <JobDetails
+                    jobsLoading ? <main className="p-20 text-center text-slate-500">در حال دریافت فرصت‌های شغلی...</main> : jobsError ? <main className="p-20 text-center text-slate-500">{jobsError}</main> : <JobDetails
                         job={selected}
                         applied={
                             !!selected &&
@@ -669,7 +681,7 @@ export default function Career() {
                                 </div>
                             ) : (
                                 applications.map((a) => {
-                                    const j = jobs.find(
+                                    const j = legacyJobs.find(
                                         (x) => x.id === a.job_id,
                                     );
                                     return (
@@ -682,7 +694,7 @@ export default function Career() {
                                             </div>
                                             <div>
                                                 <h3>
-                                                    {j?.title || "فرصت شغلی"}
+                                                    {a.job_title || j?.title || "فرصت شغلی"}
                                                 </h3>
                                                 <p>
                                                     شرکت گل‌پخش اول ·{" "}
