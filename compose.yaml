@@ -9,7 +9,7 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in the server environment or .env file}
       SHAREPOINT_JOBS_URL: ${SHAREPOINT_JOBS_URL:-}
       SHAREPOINT_USERNAME: ${SHAREPOINT_USERNAME:-}
-      SHAREPOINT_PASSWORD: ${SHPOINT_PASSWORD:-}
+      SHAREPOINT_PASSWORD: ${SHAREPOINT_PASSWORD:-}
       SHAREPOINT_AUTH: ${SHAREPOINT_AUTH:-ntlm}
     volumes:
       - ats-data:/app/data
