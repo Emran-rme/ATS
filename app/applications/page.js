@@ -43,6 +43,8 @@ function Applications() {
                                                     شرکت گل‌پخش اول ·{" "}
                                                     {j?.department}
                                                 </p>
+                                                {a.sync_status === 'pending' && <p>در انتظار ارسال به شیرپوینت</p>}
+                                                {a.sync_status === 'sent' && <p>ارسال به شیرپوینت انجام شد</p>}
                                             </div>
                                             <span className="mr-auto flex items-center gap-2 rounded-full bg-amber-50 px-3 py-2 text-xs text-amber-700">
                                                 <Clock3 size={15} />

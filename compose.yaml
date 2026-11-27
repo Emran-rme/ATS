@@ -11,6 +11,8 @@ services:
       SHAREPOINT_USERNAME: ${SHAREPOINT_USERNAME:-}
       SHAREPOINT_PASSWORD: ${SHAREPOINT_PASSWORD:-}
       SHAREPOINT_AUTH: ${SHAREPOINT_AUTH:-ntlm}
+      SHAREPOINT_SITE_URL: ${SHAREPOINT_SITE_URL:-http://gpasharepoint/sites/hrm}
+      SHAREPOINT_WRITES_ENABLED: ${SHAREPOINT_WRITES_ENABLED:-false}
     volumes:
       - ats-data:/app/data
 
